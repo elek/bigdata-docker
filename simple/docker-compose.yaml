@@ -40,4 +40,23 @@ services:
              YARN_SITE_yarn.nodemanager.vmem-check-enabled: "false"
              YARN_SITE_yarn.nodemanager.pmem-check-enabled: "false"
              YARN_SITE_yarn.nodemanager.delete.debug-delay-sec: 600
-
+   zeppelin:
+      image: elek/zeppelin
+      network_mode: host
+   zookeeper:
+      image: elek/zookeeper
+      network_mode: host
+   hbasemaster:
+      image: elek/hbase-master
+      network_mode: host
+      volumes:
+         - "./regionservers:/opt/hbase/conf/regionservers"
+      environment:
+         HBASE_SITE_hbase_zookeeper_quorum: "localhost"
+         HBASE_SITE_hbase.rootdir: "hdfs://localhost:9000/hbase"
+   hbaseregion:
+      image: elek/hbase-regionserver
+      network_mode: host
+      environment:
+         HBASE_SITE_hbase_zookeeper_quorum: "localhost"
+         HBASE_SITE_hbase.rootdir: "hdfs://localhost:9000/hbase"
