@@ -1,0 +1,11 @@
+---
+- hosts: node1
+  tasks:
+     - name: zookeeper container
+       docker_container:
+          name: zookeeper
+          image: elek/zookeeper
+          state: started
+          network_mode: host
+          volumes: "/grid/0/:/data"
+          pull: true 

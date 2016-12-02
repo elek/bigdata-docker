@@ -1,0 +1,27 @@
+---
+- hosts: node1
+  tasks:
+     - name: hbase master container
+       docker_container:
+          name: hbasemaster
+          image: elek/hbase-master
+          state: started
+          network_mode: host
+          volumes: "/grid/0/:/data"
+          pull: true 
+          env:
+             HBASE_SITE_hbase_zookeeper_quorum: "{{gateway}}"
+             HBASE_SITE_hbase.rootdir: "hdfs://{{gateway}}:9000/hbase"
+- hosts: all
+  tasks:
+     - name: hbase regionserver containers
+       docker_container:
+          name: hbaseregionserver
+          image: elek/hbase-regionserver
+          state: started
+          network_mode: host
+          volumes: "/grid/0/:/data"
+          pull: true 
+          env:
+             HBASE_SITE_hbase_zookeeper_quorum: "{{gateway}}"
+             HBASE_SITE_hbase.rootdir: "hdfs://{{gateway}}:9000/hbase"
