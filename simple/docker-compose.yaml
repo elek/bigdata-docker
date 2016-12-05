@@ -9,6 +9,7 @@ services:
          CORE_SITE_fs_default_name: "hdfs://localhost:9000"
          HDFS_SITE_dfs_namenode_rpc-address: "localhost:9000"
          HDFS_SITE_dfs_namenode_name_dir: /data/namenode
+         HDFS_SITE_dfs.namenode.http-bind-host: 0.0.0.0
    datanode:
       image: elek/hadoop-hdfs-datanode
       volumes:
@@ -18,6 +19,8 @@ services:
          CORE_SITE_fs_default_name: "hdfs://localhost:9000"
          HDFS_SITE_dfs_namenode_rpc-address: "localhost:9000"
          HDFS_SITE_dfs_namenode_name_dir: /data/namenode
+         HDFS_SITE_dfs_datanode_data_dir: /data/datanode
+         HDFS_SITE_dfs.namenode.http-bind-host: 0.0.0.0
    resourcemanager:
       image: elek/hadoop-yarn-resourcemanager
       network_mode: host
@@ -29,6 +32,7 @@ services:
              YARN_SITE_yarn.nodemanager.vmem-check-enabled: "false"
              YARN_SITE_yarn.nodemanager.pmem-check-enabled: "false"
              YARN_SITE_yarn.nodemanager.delete.debug-delay-sec: 600
+             YARN_SITE_yarn.resourcemanager.bind-host: "0.0.0.0"
    nodemanager:
       image: elek/hadoop-yarn-nodemanager
       network_mode: host
