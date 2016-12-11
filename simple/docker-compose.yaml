@@ -4,17 +4,22 @@ services:
       image: elek/hadoop-hdfs-namenode
       network_mode: host
       volumes:
+         - "./libthrift-0.9.0.jar:/opt/hadoop/share/hadoop/common/lib/libthrift.jar"
+         - "./htrace-zipkin-3.1.0-incubating.jar:/opt/hadoop/share/hadoop/common/lib/htrace-zipkin.jar"
          - "/tmp:/data"
       environment:
          CORE_SITE_fs_default_name: "hdfs://localhost:9000"
          HDFS_SITE_dfs_namenode_rpc-address: "localhost:9000"
          HDFS_SITE_dfs_namenode_name_dir: /data/namenode
-         CORE_SITE_dfs.htrace.spanreceiver.classes: org.apache.htrace.impl.LocalFileSpanReceiver
-         CORE_SITE_dfs.htrace.local-file-span-receiver.path: /tmp/htrace.out
+         CORE_SITE_dfs.htrace.spanreceiver.classes: ZipkinSpanReceiver
+         CORE_SITE_dfs.htrace.zipkin.collector-hostname: localhost
+         CORE_SITE_dfs.htrace.zipkin.collector-port: 9410
          CORE_SITE_dfs.htrace.sampler: AlwaysSampler
    datanode:
       image: elek/hadoop-hdfs-datanode
       volumes:
+         - "./libthrift-0.9.0.jar:/opt/hadoop/share/hadoop/common/lib/libthrift.jar"
+         - "./htrace-zipkin-3.1.0-incubating.jar:/opt/hadoop/share/hadoop/common/lib/htrace-zipkin.jar"
          - "/tmp:/data"
       network_mode: host
       environment:
@@ -22,12 +27,12 @@ services:
          HDFS_SITE_dfs_namenode_rpc-address: "localhost:9000"
          HDFS_SITE_dfs_datanode_data_dir: /data/datanode
          HDFS_SITE_dfs_namenode_name_dir: /data/namenode
-         CORE_SITE_dfs.client.spanreceiver.classes: org.apache.htrace.impl.LocalFileSpanReceiver
-         CORE_SITE_dfs.client.local-file-span-receiver.path: /tmp/htrace.client
-         CORE_SITE_dfs.client.sampler: AlwaysSampler
-         CORE_SITE_dfs.htrace.spanreceiver.classes: org.apache.htrace.impl.LocalFileSpanReceiver
-         CORE_SITE_dfs.htrace.local-file-span-receiver.path: /tmp/htrace.out
+        #  CORE_SITE_dfs.htrace.spanreceiver.classes: org.apache.htrace.impl.LocalFileSpanReceiver
+        #  CORE_SITE_dfs.htrace.local-file-span-receiver.path: /tmp/htrace.out
          CORE_SITE_dfs.htrace.sampler: AlwaysSampler
+         CORE_SITE_dfs.htrace.spanreceiver.classes: ZipkinSpanReceiver
+         CORE_SITE_dfs.htrace.zipkin.collector-hostname: localhost
+         CORE_SITE_dfs.htrace.zipkin.collector-port: 9410
    resourcemanager:
       image: elek/hadoop-yarn-resourcemanager
       network_mode: host
