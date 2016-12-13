@@ -1,7 +1,7 @@
 version: "2"
 services:
    namenode:
-      image: elek/hadoop-hdfs-namenode
+      image: elek/hadoop-hdfs-namenode:${HADOOP_VERSION}
       network_mode: host
       volumes:
          - "/tmp:/data"
@@ -11,7 +11,7 @@ services:
          HDFS_SITE_dfs_namenode_name_dir: /data/namenode
          HDFS_SITE_dfs.namenode.http-bind-host: 0.0.0.0
    datanode:
-      image: elek/hadoop-hdfs-datanode
+      image: elek/hadoop-hdfs-datanode:${HADOOP_VERSION}
       volumes:
          - "/tmp:/data"
       network_mode: host
@@ -22,7 +22,7 @@ services:
          HDFS_SITE_dfs_datanode_data_dir: /data/datanode
          HDFS_SITE_dfs.namenode.http-bind-host: 0.0.0.0
    resourcemanager:
-      image: elek/hadoop-yarn-resourcemanager
+      image: elek/hadoop-yarn-resourcemanager:${HADOOP_VERSION}
       network_mode: host
       environment:
              CORE_SITE_fs_default_name: "hdfs://localhost:9000"
@@ -34,7 +34,7 @@ services:
              YARN_SITE_yarn.nodemanager.delete.debug-delay-sec: 600
              YARN_SITE_yarn.resourcemanager.bind-host: "0.0.0.0"
    nodemanager:
-      image: elek/hadoop-yarn-nodemanager
+      image: elek/hadoop-yarn-nodemanager:${HADOOP_VERSION}
       network_mode: host
       environment:
              CORE_SITE_fs_default_name: "hdfs://localhost:9000"
