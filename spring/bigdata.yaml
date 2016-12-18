@@ -1,0 +1,29 @@
+configfiles:
+     hdfs:
+        core-site: xml
+        hdfs-site: xml
+        mapred-site: xml
+        log4j: properties
+     yarn:
+        core-site: xml
+        hdfs-site: xml
+        capacity-scheduler: xml
+        mapred-site: xml
+        log4j: properties
+     spark:
+        core-site: xml
+        hdfs-site: xml
+        capacity-scheduler: xml
+        mapred-site: xml
+        hbase-site: xml
+        log4j: properties
+     hbase:
+        core-site: xml
+        hdfs-site: xml
+        mapred-site: xml
+        hbase-site: xml
+        log4j: properties
+        hbase: xml
+     zookeeper:
+        log4j: properties
+        zoo: cfg
