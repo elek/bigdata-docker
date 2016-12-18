@@ -8,20 +8,21 @@
           state: started
           network_mode: host
           volumes: "/grid/0/:/data"
-          pull: true 
+          pull: true
           env:
-             HBASE_SITE_hbase_zookeeper_quorum: "{{gateway}}"
-             HBASE_SITE_hbase.rootdir: "hdfs://{{gateway}}:9000/hbase"
+             HBASE_SITE_hbase_zookeeper_quorum: "{{hostvars['node1'].ansible_hostname}}"
+             HBASE_SITE_hbase.rootdir: "hdfs://{{hostvars['node1'].ansible_hostname}}:9000/hbase"
 - hosts: all
   tasks:
      - name: hbase regionserver containers
+       tags: ['hbaseregion']
        docker_container:
           name: hbaseregionserver
           image: elek/hbase-regionserver
           state: started
           network_mode: host
           volumes: "/grid/0/:/data"
-          pull: true 
+          pull: true
           env:
-             HBASE_SITE_hbase_zookeeper_quorum: "{{gateway}}"
-             HBASE_SITE_hbase.rootdir: "hdfs://{{gateway}}:9000/hbase"
+             HBASE_SITE_hbase_zookeeper_quorum: "{{hostvars['node1'].ansible_hostname}}"
+             HBASE_SITE_hbase.rootdir: "hdfs://{{hostvars['node1'].ansible_hostname}}:9000/hbase"
