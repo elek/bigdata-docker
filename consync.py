@@ -7,6 +7,7 @@ import re
 from os import listdir
 from os.path import isfile, join
 from builtins import print
+from jinja2 import Template
 
 url = "http://localhost:8500/v1/kv/"
 
@@ -27,6 +28,9 @@ def upload(path, basedir, prefix):
     if not requests.put(url + prefix + "/" + keypath, content).ok:
         print("Error on uploading file %s to %s" % path, keypath)
 
+def template_render(filepath, basepath, content):
+   t = Template(content)
+   return t.render(env = os.environ)
 
 def find_transformation(filepath, basepath):
     trafofile = os.path.join(basepath, "transformations.txt")
@@ -59,6 +63,7 @@ def read_content(filepath, basepath):
     content = ""
     with open(filepath) as in_file:
         content = in_file.read()
+    content = template_render(filepath, basepath, content)
     trans = find_transformation(filepath, basepath)
     if trans:
         content = globals()["to_%s" % trans](content)
