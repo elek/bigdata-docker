@@ -37,6 +37,8 @@ services:
    zookeeper:
       image: elek/zookeeper
       network_mode: host
+      volumes:
+         - "/tmp:/data"
       environment:
          CONFIG_TYPE: "consul"
          CONSUL_KEY: "zookeeper"

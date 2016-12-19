@@ -1,5 +1,5 @@
 dfs.namenode.name.dir: /data/namenode
-dfs.namenode.rpc-address: localhost:9000
+dfs.namenode.rpc-address: {{env.GATEWAY_HOST}}:9000
 dfs.replication: 1
 dfs.permissions.superusergroup: admin
 dfs.datanode.data.dir: /data/datanode

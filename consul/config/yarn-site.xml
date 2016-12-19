@@ -1,4 +1,4 @@
-yarn.resourcemanager.hostname: localhost
+yarn.resourcemanager.hostname: {{env.GATEWAY_HOST}}
 yarn.nodemanager.pmem-check-enabled: false
 yarn.nodemanager.delete.debug-delay-sec: 600
 yarn.nodemanager.vmem-check-enabled: false
