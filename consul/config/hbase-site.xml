@@ -1,0 +1,3 @@
+hbase.zookeeper.quorum: {{env.GATEWAY_HOST}}
+hbase.cluster.distributed: true
+hbase.rootdir: hdfs://{{env.GATEWAY_HOST}}:9000/hbase

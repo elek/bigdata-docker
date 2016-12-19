@@ -1,0 +1,30 @@
+version: "2"
+services:
+   datanode:
+      image: elek/hadoop-hdfs-datanode:\${HADOOP_VERSION}
+      network_mode: host
+      volumes:
+         - "/tmp:/data"
+      environment:
+         CONFIG_SERVER_URL: http://\${gateway_host}:8888
+         CONFIG_GROUP: hdfs
+         CONFIG_TYPE: springconfig
+   nodemanager:
+      image: elek/hadoop-yarn-nodemanager:\${HADOOP_VERSION}
+      network_mode: host
+      volumes:
+         - "/tmp:/data"
+      environment:
+         CONFIG_SERVER_URL: http://\${gateway_host}:8888
+         CONFIG_GROUP: yarn
+         CONFIG_TYPE: springconfig
+   sparkslave:
+      image: elek/spark-slave
+      network_mode: host
+      volumes:
+         - "/tmp:/data"
+      environment:
+         CONFIG_SERVER_URL: http://\${gateway_host}:8888
+         CONFIG_GROUP: spark
+         CONFIG_TYPE: springconfig
+         SPARK_MASTER_HOST: 10.0.2.15:7077

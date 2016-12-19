@@ -1,0 +1,48 @@
+version: "2"
+services:
+   namenode:
+      image: elek/hadoop-hdfs-namenode:${HADOOP_VERSION}
+      network_mode: host
+      volumes:
+         - "/tmp:/data"
+#      command: /opt/hadoop/bin/hdfs namenode -upgrade
+      environment:
+         CONFIG_SERVER_URL: http://\${gateway_host}:8888
+         CONFIG_GROUP: hdfs
+         CONFIG_TYPE: springconfig
+   resourcemanager:
+      image: elek/hadoop-yarn-resourcemanager:${HADOOP_VERSION}
+      network_mode: host
+      volumes:
+         - "/tmp:/data"
+      environment:
+         CONFIG_SERVER_URL: http://\${gateway_host}:8888
+         CONFIG_GROUP: yarn
+         CONFIG_TYPE: springconfig
+   zookeeper:
+      image: elek/zookeeper
+      network_mode: host
+      volumes:
+         - "/tmp:/data"
+      environment:
+         CONFIG_SERVER_URL: http://\${gateway_host}:8888
+         CONFIG_GROUP: zookeeper
+         CONFIG_TYPE: springconfig
+   sparkhistory:
+      image: elek/spark-history
+      network_mode: host
+      volumes:
+         - "/tmp:/data"
+      environment:
+         CONFIG_SERVER_URL: http://\${gateway_host}:8888
+         CONFIG_GROUP: spark
+         CONFIG_TYPE: springconfig
+   sparkmaster:
+      image: elek/spark-master
+      network_mode: host
+      volumes:
+         - "/tmp:/data"
+      environment:
+         CONFIG_SERVER_URL: http://\${gateway_host}:8888
+         CONFIG_GROUP: spark
+         CONFIG_TYPE: springconfig
