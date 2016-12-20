@@ -1,0 +1,5 @@
+version: "2"
+services:
+   zipkin:
+      image: openzipkin/zipkin
+      network_mode: host
