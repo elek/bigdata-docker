@@ -38,7 +38,7 @@ services:
       image: elek/zookeeper
       network_mode: host
       volumes:
-         - "/tmp:/data"
+         - "{{env.DATA_DIR}}:/data"
       environment:
          CONFIG_TYPE: "consul"
          CONSUL_KEY: "zookeeper"
@@ -57,16 +57,16 @@ services:
    sparkmaster:
       image: elek/spark-master
       network_mode: host
+      volumes:
+         - "{{env.DATA_DIR}}:/data"
       environment:
          CONFIG_TYPE: "consul"
-   weavescope:
-       image: weaveworks/scope:1.1.0
-       privileged: true
-       network_mode: host
-       pid: "host"
-       volumes:
-           - "/var/run/docker.sock:/var/run/docker.sock"
-           - "/var/run/scope/plugins:/var/run/scope/plugins"
-       environment:
-          CHECKPOINT_DISABLE:
-       command: "--probe.docker=true melek-manual8-1 melek-manual8-2 melek-manual8-3 melek-manual8-4 melek-manual8-5"
+         CONFIG_KEY: "spark"
+   sparkhistory:
+      image: elek/spark-history
+      network_mode: host
+      volumes:
+         - "{{env.DATA_DIR}}:/data"
+      environment:
+         CONFIG_TYPE: "consul"
+         CONFIG_KEY: "spark"

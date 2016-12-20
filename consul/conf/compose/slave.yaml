@@ -24,14 +24,3 @@ services:
      environment:
         CONFIG_TYPE: "consul"
         CONFIG_KEY: "hbase"
-   weavescope:
-       image: weaveworks/scope:1.1.0
-       privileged: true
-       network_mode: host
-       pid: "host"
-       volumes:
-           - "/var/run/docker.sock:/var/run/docker.sock"
-           - "/var/run/scope/plugins:/var/run/scope/plugins"
-       environment:
-          CHECKPOINT_DISABLE:
-       command: "--probe.docker=true melek-manual8-1 melek-manual8-2 melek-manual8-3 melek-manual8-4 melek-manual8-5"

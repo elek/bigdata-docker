@@ -1,0 +1,16 @@
+---
+- hosts: all
+  tasks:
+   - docker_container:
+          name: weavescope
+          image: weaveworks/scope:1.1.0
+          state: started
+          network_mode: host
+          privileged: true
+          pid_mode: "host"
+          volumes:
+             - "/var/run/docker.sock:/var/run/docker.sock"
+             - "/var/run/scope/plugins:/var/run/scope/plugins"
+          env:
+            CHECKPOINT_DISABLE:
+          command: "--probe.docker=true {% for host in groups['all'] %}{{hostvars[host].ansible_host}} {% endfor %}"
