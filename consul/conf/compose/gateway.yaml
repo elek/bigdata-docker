@@ -4,14 +4,14 @@ services:
       image: elek/hadoop-hdfs-namenode
       network_mode: host
       volumes:
-         - "/tmp:/data"
+         - "{{env.DATA_DIR}}:/data"
       environment:
          CONFIG_TYPE: "consul"
          CONSUL_KEY: "hdfs"
    datanode:
       image: elek/hadoop-hdfs-datanode
       volumes:
-         - "/tmp:/data"
+         - "{{env.DATA_DIR}}:/data"
       network_mode: host
       environment:
          CONFIG_TYPE: "consul"
@@ -54,6 +54,11 @@ services:
       environment:
          CONFIG_TYPE: "consul"
          CONFIG_KEY: "hbase"
+   sparkmaster:
+      image: elek/spark-master
+      network_mode: host
+      environment:
+         CONFIG_TYPE: "consul"
    weavescope:
        image: weaveworks/scope:1.1.0
        privileged: true
@@ -64,4 +69,4 @@ services:
            - "/var/run/scope/plugins:/var/run/scope/plugins"
        environment:
           CHECKPOINT_DISABLE:
-       command: "--probe.docker=true"
+       command: "--probe.docker=true melek-manual8-1 melek-manual8-2 melek-manual8-3 melek-manual8-4 melek-manual8-5"

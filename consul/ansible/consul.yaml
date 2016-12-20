@@ -1,0 +1,21 @@
+---
+- hosts: node1
+  tasks:
+     - name:
+       docker_container:
+          name: consul
+          image: progrium/consul
+          state: started
+          network_mode: host
+          pull: true
+          command: "--server --bootstrap"
+- hosts: slaves
+  tasks:
+     - name:
+       docker_container:
+          name: consul
+          image: progrium/consul
+          state: started
+          network_mode: host
+          pull: true
+          command: "--server --join 172.22.66.76"

@@ -1,0 +1,29 @@
+---
+- hosts: slaves
+  tasks:
+     - name:
+       docker_container:
+          name: consul-compose
+          image: elek/consul-compose
+          state: started
+          network_mode: host
+          pull: true
+          env:
+             CONSUL_SERVER: "localhost:8500"
+             CONSUL_COMPOSE_PATH: "conf/compose/slave.yaml"
+          volumes:
+             - "/var/run/docker.sock:/var/run/docker.sock"
+- hosts: node1
+  tasks:
+     - name:
+       docker_container:
+          name: consul-compose
+          image: elek/consul-compose
+          state: started
+          network_mode: host
+          pull: true
+          env:
+             CONSUL_SERVER: "localhost:8500"
+             CONSUL_COMPOSE_PATH: "conf/compose/gateway.yaml"
+          volumes:
+             - "/var/run/docker.sock:/var/run/docker.sock"
