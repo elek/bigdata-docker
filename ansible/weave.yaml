@@ -13,4 +13,4 @@
              - "/var/run/scope/plugins:/var/run/scope/plugins"
           env:
             CHECKPOINT_DISABLE:
-          command: "--probe.docker=true {% for host in groups['all'] %}{{hostvars[host].ansible_host}} {% endfor %}"
+          command: "--probe.docker=true {% for host in groups['all'] %} {% if inventory_hostname != host %} {{hostvars[host].ansible_host}} {% endif %}{% endfor %}"
