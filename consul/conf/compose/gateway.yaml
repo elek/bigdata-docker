@@ -47,13 +47,13 @@ services:
       network_mode: host
       environment:
          CONFIG_TYPE: "consul"
-         CONFIG_KEY: "hbase"
+         CONSUL_KEY: "hbase"
    hbaseregion:
       image: elek/hbase-regionserver
       network_mode: host
       environment:
          CONFIG_TYPE: "consul"
-         CONFIG_KEY: "hbase"
+         CONSUL_KEY: "hbase"
    sparkmaster:
       image: elek/spark-master
       network_mode: host
@@ -61,7 +61,7 @@ services:
          - "{{env.DATA_DIR}}:/data"
       environment:
          CONFIG_TYPE: "consul"
-         CONFIG_KEY: "spark"
+         CONSUL_KEY: "spark"
    sparkhistory:
       image: elek/spark-history
       network_mode: host
@@ -69,4 +69,4 @@ services:
          - "{{env.DATA_DIR}}:/data"
       environment:
          CONFIG_TYPE: "consul"
-         CONFIG_KEY: "spark"
+         CONSUL_KEY: "spark"
