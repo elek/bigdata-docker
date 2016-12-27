@@ -10,24 +10,24 @@
           network_mode: host
           volumes:
              - "/root/prometheus.yml:/etc/prometheus/prometheus.yml"
-   #   - docker_container:
-   #        name: grafana
-   #        image: grafana/grafana
-   #        state: started
-   #        network_mode: host
-# - hosts: all
-#   tasks:
-#      - name: resourcemanager container
-#        docker_container:
-#           name: nodeexporter
-#           image: prom/node-exporter
-#           state: started
-#           network_mode: host
-#           ports:
-#              - 9100:9100
-#           volumes:
-#              - "/proc:/host/proc"
-#              - "/sys:/host/sys"
-#              - "/:/rootfs"
-#           pull: true
-#           command: "-collector.procfs /host/proc -collector.sysfs /host/proc -collector.filesystem.ignored-mount-points \"^/(sys|proc|dev|host|etc)($|/)\""
+     - docker_container:
+          name: grafana
+          image: grafana/grafana
+          state: started
+          network_mode: host
+- hosts: all
+  tasks:
+     - name: resourcemanager container
+       docker_container:
+          name: nodeexporter
+          image: prom/node-exporter
+          state: started
+          network_mode: host
+          ports:
+             - 9100:9100
+          volumes:
+             - "/proc:/host/proc"
+             - "/sys:/host/sys"
+             - "/:/rootfs"
+          pull: true
+          command: "-collector.procfs /host/proc -collector.sysfs /host/proc -collector.filesystem.ignored-mount-points \"^/(sys|proc|dev|host|etc)($|/)\""
