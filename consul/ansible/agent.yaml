@@ -7,6 +7,7 @@
           image: elek/consul-compose
           state: started
           network_mode: host
+          restart_policy: always
           pull: true
           env:
              CONSUL_SERVER: "localhost:8500"
@@ -21,6 +22,7 @@
           image: elek/consul-compose
           state: started
           network_mode: host
+          restart_policy: always
           pull: true
           env:
              CONSUL_SERVER: "localhost:8500"

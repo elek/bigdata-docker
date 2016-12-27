@@ -6,6 +6,7 @@
           image: weaveworks/scope:1.1.0
           state: started
           network_mode: host
+          restart_policy: always          
           privileged: true
           pid_mode: "host"
           volumes:

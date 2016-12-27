@@ -6,6 +6,7 @@
           image: gliderlabs/logspout
           state: started
           network_mode: host
+          restart_policy: always          
           volumes:
              - "/var/run/docker.sock:/var/run/docker.sock"
           env:
