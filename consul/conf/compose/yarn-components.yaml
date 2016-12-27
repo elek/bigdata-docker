@@ -1,0 +1,12 @@
+   resourcemanager:
+      image: elek/hadoop-yarn-resourcemanager
+      network_mode: host
+      environment:
+         CONFIG_TYPE: "consul"
+         CONSUL_KEY: "yarn"
+   nodemanager:
+      image: elek/hadoop-yarn-nodemanager
+      network_mode: host
+      environment:
+         CONFIG_TYPE: "consul"
+         CONSUL_KEY: "yarn"
