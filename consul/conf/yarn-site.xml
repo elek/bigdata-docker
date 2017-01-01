@@ -3,3 +3,6 @@ yarn.nodemanager.pmem-check-enabled: false
 yarn.nodemanager.delete.debug-delay-sec: 600
 yarn.nodemanager.vmem-check-enabled: false
 yarn.nodemanager.aux-services: mapreduce_shuffle
+yarn.nodemanager.local-dirs: /data/nodemanager-local-dir
+yarn.nodemanager.log-dirs: /data/yarn-userlogs
+yarn.nodemanager.remote-app-log-dir: /data/yarn-remotelogs
