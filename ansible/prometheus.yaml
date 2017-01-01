@@ -8,12 +8,14 @@
           image: prom/prometheus
           state: started
           network_mode: host
+          restart_policy: always
           volumes:
              - "/root/prometheus.yml:/etc/prometheus/prometheus.yml"
      - docker_container:
           name: grafana
           image: grafana/grafana
           state: started
+          restart_policy: always
           network_mode: host
 - hosts: all
   tasks:
@@ -23,6 +25,7 @@
           image: prom/node-exporter
           state: started
           network_mode: host
+          restart_policy: always
           ports:
              - 9100:9100
           volumes:
