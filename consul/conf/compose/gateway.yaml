@@ -36,6 +36,8 @@ services:
       container_name: zeppelin
       image: elek/zeppelin
       network_mode: host
+      volumes:
+         - "{{env.DATA_DIR}}:/data"
       environment:
          CONFIG_TYPE: "consul"
          CONSUL_KEY: "zeppelin"
@@ -62,22 +64,21 @@ services:
       environment:
          CONFIG_TYPE: "consul"
          CONSUL_KEY: "hbase"
-   sparkmaster:
-      container_name: sparkmaster
-      image: elek/spark-master
-      network_mode: host
-      volumes:
-         - "{{env.DATA_DIR}}:/data"
-      environment:
-         CONFIG_TYPE: "consul"
-         CONSUL_KEY: "spark"
    sparkhistory:
       container_name: sparkhistory
-      image: elek/spark-history
+      image: elek/spark-history:2.1.0
       network_mode: host
       volumes:
          - "{{env.DATA_DIR}}:/data"
       environment:
          CONFIG_TYPE: "consul"
          CONSUL_KEY: "spark"
-         A: "xxx"
+   flume:
+      container_name: flume
+      image: elek/flume
+      network_mode: host
+      volumes:
+         - "{{env.DATA_DIR}}:/data"
+      environment:
+         CONFIG_TYPE: "consul"
+         CONSUL_KEY: "flume"
