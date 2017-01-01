@@ -1,0 +1,10 @@
+version: "2"
+services:
+   consulcompose:
+      image: elek/consul-compose
+      network_mode: host
+      volumes:
+         - "/var/run/docker.sock:/var/run/docker.sock"
+      environment:
+         CONSUL_COMPOSE_PATH: "conf/compose/spark.yaml"
+         CONSUL_SERVER: "localhost:8500"
