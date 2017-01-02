@@ -1,0 +1,4 @@
+dfs.htrace.sampler: AlwaysSampler
+dfs.htrace.spanreceiver.classes: ZipkinSpanReceiver
+dfs.htrace.zipkin.collector-hostname: {{env.GATEWAY_HOST}}
+dfs.htrace.zipkin.collector-port: 9410

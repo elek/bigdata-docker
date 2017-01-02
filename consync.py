@@ -3,105 +3,81 @@ import requests
 import os
 import json
 import argparse
-import re
-from os import listdir
-from os.path import isfile, join
+
 from builtins import print
-from jinja2 import Template
+
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 import time
 import logging
-from jinja2 import Environment, FileSystemLoader
-
-url = "http://localhost:8500/v1/kv/"
-
-def base_consul_url(prefix):
-    return url + prefix + "/"
-
-def listfiles(dir, prefix):
-    for root, dirs, files in os.walk(dir, topdown=True):
-        dirs[:] = [d for d in dirs if d != ".git"]
-        for file in files:
-            filepath = os.path.join(root, file)
-            upload(filepath, dir, prefix)
+from consync.template import Template
+from consync.transform import Transform
+from consync.profiles import Profiles
 
 
-def upload(path, basedir, prefix):
-    print("Uploading %s" % path)
-    content = read_content(path, basedir)
-    keypath = os.path.relpath(path, basedir)
-    if not requests.put(base_consul_url(prefix) + keypath, content).ok:
-        print("Error on uploading file {} to {}".format(path, keypath))
-
-def template_render(filepath, basepath, content):
-   t = Environment(loader=FileSystemLoader(os.path.dirname(filepath))).from_string(content)
-   return t.render(env = os.environ)
-
-def find_transformation(filepath, basepath):
-    trafofile = os.path.join(basepath, "transformations.txt")
-    transfo = ""
-    filename = os.path.basename(filepath)
-    if os.path.isfile(trafofile):
-        with open(trafofile) as f:
-            for line in f:
-                line = line.strip()
-                lsep = line.rfind(" ")
-                pattern = line[0:lsep]
-                if re.search(pattern, filename):
-                    transfo = line[lsep:].strip()
-    if transfo:
-        print("Transforming file {} to format {}".format(filepath, transfo))
-    return transfo
+class ConSync:
+    def __init__(self, basepath, consul_url, consul_prefix):
+        self.consul_url = consul_url
+        self.basepath = basepath
+        self.consul_prefix = consul_prefix
+        self.plugins = []
+        self.plugins.append(Profiles(basepath))
+        self.plugins.append(Template(basepath))
+        self.plugins.append(Transform(basepath))
 
 
-def to_xml(content):
-    result = "<configuration>\n"
-    for line in content.split("\n"):
-        keyvalue = line.split(":", 1)
-        if len(keyvalue) > 1:
-            result += "<property><name>{0}</name><value>{1}</value></property>\n".format(keyvalue[0], keyvalue[1].strip())
-    result += "</configuration>"
-    return result
+    def base_consul_url(self):
+        return url + self.consul_prefix + "/"
 
+    def listfiles(self):
+        for root, dirs, files in os.walk(self.basepath, topdown=True):
+            dirs[:] = [d for d in dirs if not d.startswith(".")]
+            for file in files:
+                filepath = os.path.join(root, file)
+                print(filepath)
+                self.upload(filepath)
 
-def read_content(filepath, basepath):
-    content = ""
-    with open(filepath) as in_file:
-        content = in_file.read()
-    content = template_render(filepath, basepath, content)
-    trans = find_transformation(filepath, basepath)
-    if trans:
-        content = globals()["to_%s" % trans](content)
-    return content
+    def upload(self, path):
+        print("Uploading %s" % path)
+        content = self.read_content(path)
+        for plugin in self.plugins:
+            content = plugin.transform_content(path, content)
+        keypath = os.path.relpath(path, self.basepath)
+        if not requests.put(self.base_consul_url() + keypath, content).ok:
+            print("Error on uploading file {} to {}".format(path, keypath))
 
+    def read_content(self, filepath):
+        content = ""
+        with open(filepath) as in_file:
+            content = in_file.read()
+        return content
 
-def clean(path, prefix):
-    result = requests.get(base_consul_url(prefix) + "?recurse")
-    if result.ok:
-        entries = json.loads(result.text)
-        for entry in entries:
-            relativeKey = os.path.relpath(entry['Key'], prefix)
-            filepath = os.path.join(path, relativeKey)
-            if not os.path.isfile(filepath):
-                print("Deleting key " + relativeKey)
-                delete_url = base_consul_url(prefix) + relativeKey
-                if not requests.delete(delete_url).ok:
-                    print("Key delete was unsuccessfull: %s" % delete_url)
-    else:
-        print("Error on getting existing keys ")
+    def clean(self):
+        result = requests.get(self.base_consul_url() + "?recurse")
+        if result.ok:
+            entries = json.loads(result.text)
+            for entry in entries:
+                relativeKey = os.path.relpath(entry['Key'], self.consul_prefix)
+                filepath = os.path.join(self.basepath, relativeKey)
+                if not os.path.isfile(filepath):
+                    print("Deleting key " + relativeKey)
+                    delete_url = self.base_consul_url() + relativeKey
+                    if not requests.delete(delete_url).ok:
+                        print("Key delete was unsuccessfull: %s" % delete_url)
+        else:
+            print("Error on getting existing keys ")
 
 
 class MyEventHandler(FileSystemEventHandler):
-     def __init__(self, basedir, prefix):
-         self.basedir = basedir
-         self.prefix = prefix
+    def __init__(self, syncer):
+        self.syncer = syncer
 
-     def on_modified(self, event):
-         if not event.is_directory:
+    def on_modified(self, event):
+        if not event.is_directory:
             print(event.event_type)
             print(event.src_path)
-            upload(event.src_path, self.basedir, self.prefix)
+            self.syncer.upload(event.src_path)
+
 
 locals()
 parser = argparse.ArgumentParser()
@@ -111,24 +87,28 @@ parser.add_argument("--serve", help="Listening for new changes and upload only t
 parser.add_argument("--url", help="consul server address (protocol, servername, port)")
 args = parser.parse_args()
 
+url = "http://localhost:8500/v1/kv/"
+
 if args.url:
-    print(args.url)
     url = args.url + "/v1/kv/"
+
+syncer = ConSync(args.dir, url, args.prefix)
+
 if not args.serve:
-    clean(args.dir, args.prefix)
-    listfiles(args.dir, args.prefix)
+    syncer.clean()
+    syncer.listfiles()
 else:
-  logging.basicConfig(level=logging.INFO,
+    logging.basicConfig(level=logging.INFO,
                         format='%(asctime)s - %(message)s',
                         datefmt='%Y-%m-%d %H:%M:%S')
 
-  event_handler = MyEventHandler(args.dir, args.prefix)
-  observer = Observer()
-  observer.schedule(event_handler, args.dir, recursive=True)
-  observer.start()
-  try:
-     while True:
-        time.sleep(1)
-  except KeyboardInterrupt:
-     observer.stop()
-  observer.join()
+    event_handler = MyEventHandler(syncer)
+    observer = Observer()
+    observer.schedule(event_handler, args.dir, recursive=True)
+    observer.start()
+    try:
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        observer.stop()
+    observer.join()
