@@ -4,6 +4,8 @@ services:
       image: elek/hadoop-hdfs-namenode
       container_name: hdfs_namenode
       hostname: namenode
+      volumes:
+         - /tmp:/tmp #namenode data will be persitent here
       ports: 
          - 50070:50070
    datanode:
