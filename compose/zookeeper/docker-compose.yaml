@@ -1,0 +1,12 @@
+version: "2"
+services:
+  zookeeper:
+      image: elek/zookeeper
+      container_name: zookeeper
+      hostname: zookeeper
+      ports:
+         - 2181
+networks:
+   default:
+      external:
+         name: hadoop
