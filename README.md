@@ -23,13 +23,13 @@ This repository contains example cluster configuration, using different ways to 
 
 ## Examples
 
-| directory        | configuration type    | docker container starter        | provisioning | cluster type  | note (*)
-|------------------|-----------------------|---------------------------------|--------------|---------------|------------------
-| simple[simple]   | environment variables | docker-compose                  |              | local         | Using host network
-| compose[compose] | environment variables | docker-compose                  |              | local         | Using dedicated docker network
-| consul           | consul                | consul-composer (docker-compose)| (ansible)    | local/cluster | Using host network
-| spring           | spring config server  | docker-compose                  |              | local/cluster | Using host network
-| ansible[ansible] | environment variables | docker (ansible module)         | ansible      | cluster       | Using host network
+| directory          | configuration type    | docker container starter        | provisioning | cluster type  | note (*)
+|--------------------|-----------------------|---------------------------------|--------------|---------------|------------------
+| [simple][simple]   | environment variables | docker-compose                  |              | local         | Using host network
+| [compose][compose] | environment variables | docker-compose                  |              | local         | Using dedicated docker network
+| consul             | consul                | consul-composer (docker-compose)| (ansible)    | local/cluster | Using host network
+| spring             | spring config server  | docker-compose                  |              | local/cluster | Using host network
+| [ansible][ansible] | environment variables | docker (ansible module)         | ansible      | cluster       | Using host network
 
 * Host network is not a limitation just the example uses this simplified approach.
 
