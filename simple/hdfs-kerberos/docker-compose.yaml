@@ -1,0 +1,47 @@
+version: "2"
+services:
+   krb5:
+      image: elek/krb5
+      container_name: krb5
+      network_mode: host
+      volumes:
+         - "/tmp:/data"
+         - "./keytab.generate:/root/keytab.generate"
+   namenode:
+      image: elek/hadoop-hdfs-namenode:${HADOOP_VERSION}
+      container_name: namenode
+      network_mode: host
+      volumes:
+         - "/tmp:/data"
+         - "./krb5.conf:/etc/krb5.conf"
+      environment:
+         CORE-SITE_fs.default.name: "hdfs://localhost:9000"
+         HDFS-SITE_dfs.namenode.rpc-address: "localhost:9000"
+         HDFS-SITE_dfs.namenode.name.dir: /data/namenode
+         HDFS-SITE_dfs.namenode.http-bind-host: 0.0.0.0
+         CORE-SITE_hadoop.security.auth_to_local: 'RULE:[2:$$1@$$0](.*)s/.*/root/ '
+         CORE-SITE_hadoop.security.authentication: kerberos
+         HDFS-SITE_dfs.namenode.kerberos.principal: nn/${HOST_NAME}@EXAMPLE.COM
+         HDFS-SITE_dfs.namenode.keytab.file: /data/nn.service.keytab
+         HDFS-SITE_dfs.web.authentication.kerberos.principal: HTTP/${HOST_NAME}@EXAMPLE.COM
+         HDFS-SITE_dfs.web.authentication.kerberos.keytab: /data/http.service.keytab
+   datanode:
+      image: elek/hadoop-hdfs-datanode:${HADOOP_VERSION}
+      container_name: datanode
+      volumes:
+         - "/tmp:/data"
+         - "./krb5.conf:/etc/krb5.conf"
+      network_mode: host
+      environment:
+         CORE-SITE_fs.default.name: "hdfs://localhost:9000"
+         HDFS-SITE_dfs.namenode.rpc-address: "localhost:9000"
+         HDFS-SITE_dfs_datanode_data_dir: /data/datanode
+         HDFS-SITE_dfs.namenode.http-bind-host: 0.0.0.0
+         CORE-SITE_hadoop.security.auth_to_local: "DEFAULT"
+         CORE-SITE_hadoop.security.authentication: kerberos
+         HDFS-SITE_dfs.datanode.kerberos.principal: dn/${HOST_NAME}@EXAMPLE.COM
+         HDFS-SITE_dfs.datanode.keytab.file: /data/dn.service.keytab
+         CORE-SITE_dfs.data.transfer.protection: authentication
+         HDFS-SITE_dfs.datanode.address: 0.0.0.0:1004
+         HDFS-SITE_dfs.datanode.http.address: 0.0.0.0:1006
+         HDFS-SITE_ignore.secure.ports.for.testing: "true"

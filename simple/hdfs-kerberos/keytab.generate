@@ -1,0 +1,8 @@
+#!/bin/bash
+export HOST_NAME=`hostname`
+kadmin.local -q "addprinc nn/${HOST_NAME}@EXAMPLE.COM"
+kadmin.local -q "ktadd -k /data/nn.service.keytab nn/${HOST_NAME}@EXAMPLE.COM"
+kadmin.local -q "addprinc dn/${HOST_NAME}@EXAMPLE.COM"
+kadmin.local -q "ktadd -k /data/dn.service.keytab dn/${HOST_NAME}@EXAMPLE.COM"
+kadmin.local -q "addprinc HTTP/${HOST_NAME}@EXAMPLE.COM"
+kadmin.local -q "ktadd -k /data/http.service.keytab HTTP/${HOST_NAME}@EXAMPLE.COM"
