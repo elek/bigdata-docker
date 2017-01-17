@@ -10,6 +10,8 @@ services:
          HDFS-SITE_dfs.namenode.rpc-address: "localhost:9000"
          HDFS-SITE_dfs.namenode.name.dir: /data/namenode
          HDFS-SITE_dfs.namenode.http-bind-host: 0.0.0.0
+         HDFS-SITE_hadoop.proxyuser.root.hosts: "*"
+         HDFS-SITE_hadoop.proxyuser.root.groups: "*"
    datanode:
       image: elek/hadoop-hdfs-datanode:${HADOOP_VERSION}
       volumes:
@@ -20,6 +22,33 @@ services:
          HDFS-SITE_dfs.namenode.rpc-address: "localhost:9000"
          HDFS-SITE_dfs_datanode_data_dir: /data/datanode
          HDFS-SITE_dfs.namenode.http-bind-host: 0.0.0.0
+   hivemetastore:
+      image: elek/hive-metastore
+      volumes:
+         - "/tmp:/data"
+      network_mode: host
+      environment:
+         CORE-SITE_fs.default.name: "hdfs://localhost:9000"
+         HDFS-SITE_dfs.namenode.rpc-address: "localhost:9000"
+         HDFS-SITE_dfs_datanode_data_dir: /data/datanode
+         HDFS-SITE_dfs.namenode.http-bind-host: 0.0.0.0
+         HIVE-SITE_javax.jdo.option.ConnectionURL: "jdbc:derby:;databaseName=/data/hivemetastore;create=true"
+         HIVE-SITE_hive.metastore.warehouse.dir: /hive
+   hiveserver2:
+      image: elek/hive-hiveserver2
+      volumes:
+         - "/tmp:/data"
+      network_mode: host
+      environment:
+         HADOOP_CONF_DIR: /opt/hive/conf
+         CORE-SITE_fs.default.name: "hdfs://localhost:9000"
+         CORE-SITE_fs.defaultFs: "hdfs://localhost:9000"
+         HDFS-SITE_dfs.namenode.rpc-address: "localhost:9000"
+         HDFS-SITE_dfs_datanode_data_dir: /data/datanode
+         HDFS-SITE_dfs.namenode.http-bind-host: 0.0.0.0
+         HIVE-SITE_hive.metastore.uris: thrift://localhost:9083
+         HIVE-SITE_hive.metastore.warehouse.dir: /hive
+      command: /opt/hive/bin/hiveserver2
    resourcemanager:
       image: elek/hadoop-yarn-resourcemanager:${HADOOP_VERSION}
       network_mode: host
