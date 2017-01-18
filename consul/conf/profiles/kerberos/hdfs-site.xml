@@ -1,0 +1,11 @@
+dfs.namenode.kerberos.principal: nn/{{env.GATEWAY_HOST}}@EXAMPLE.COM
+dfs.namenode.keytab.file: /data/nn.service.keytab
+dfs.datanode.kerberos.principal: dn/{{env.GATEWAY_HOST}}@EXAMPLE.COM
+dfs.datanode.keytab.file: /data/dn.service.keytab
+dfs.web.authentication.kerberos.principal: HTTP/{{env.GATEWAY_HOST}}@EXAMPLE.COM
+dfs.web.authentication.kerberos.keytab: /data/http.service.keytab
+dfs.block.access.token.enable: true
+dfs.block.access.key.update.interval: 5
+dfs.block.access.token.lifetime: 10
+dfs.data.transfer.protection: authentication
+dfs.http.policy: HTTPS_ONLY

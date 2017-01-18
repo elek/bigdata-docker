@@ -1,0 +1,52 @@
+version: "2"
+services:
+   krb5:
+      image: elek/krb5
+      container_name: krb5
+      network_mode: host
+      volumes:
+         - "/tmp:/data"
+         - "./krb5.conf:/etc/krb5.conf"
+   namenode:
+      container_name: namenode
+      image: elek/hadoop-hdfs-namenode
+      network_mode: host
+      volumes:
+         - "/tmp:/data"
+         - "./krb5.conf:/etc/krb5.conf"
+      environment:
+         CONFIG_TYPE: "consul"
+         CONSUL_KEY: "hdfs"
+   datanode:
+      container_name: datanode
+      image: elek/hadoop-hdfs-datanode
+      volumes:
+         - "/tmp:/data"
+         - "./krb5.conf:/etc/krb5.conf"
+      network_mode: host
+      environment:
+         CONFIG_TYPE: "consul"
+         CONSUL_KEY: "hdfs"
+   resourcemanager:
+      container_name: resourcemanager
+      image: elek/hadoop-yarn-resourcemanager
+      network_mode: host
+      volumes:
+         - "/tmp:/data"
+         - "./krb5.conf:/etc/krb5.conf"
+      environment:
+         CONFIG_TYPE: "consul"
+         CONSUL_KEY: "yarn"
+#         YARN_OPTS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005"
+   nodemanager:
+      container_name: nodemanager
+      image: elek/hadoop-yarn-nodemanager
+      volumes:
+         - "/tmp:/data"
+         - "./krb5.conf:/etc/krb5.conf"
+      network_mode: host
+      environment:
+         CONFIG_TYPE: "consul"
+         CONSUL_KEY: "yarn"
+
+ #./bin/yarn jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.3.jar pi 16 10

@@ -1,0 +1,3 @@
+ssl.server.keystore.location: /data/sc.dn.keystore
+ssl.server.keystore.password: Welcome1
+ssl.server.keystore.keypassword: Welcome1

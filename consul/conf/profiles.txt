@@ -1,2 +1,1 @@
-htrace
-kdc
+kerberos

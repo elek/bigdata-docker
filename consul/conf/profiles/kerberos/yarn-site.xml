@@ -1,0 +1,4 @@
+yarn.nodemanager.principal: nm/{{env.GATEWAY_HOST}}@EXAMPLE.COM
+yarn.nodemanager.keytab: /data/nm.service.keytab
+yarn.resourcemanager.principal: rm/{{env.GATEWAY_HOST}}@EXAMPLE.COM
+yarn.resourcemanager.keytab: /data/rm.service.keytab

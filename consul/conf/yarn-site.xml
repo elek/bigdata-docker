@@ -6,3 +6,5 @@ yarn.nodemanager.aux-services: mapreduce_shuffle
 yarn.nodemanager.local-dirs: /data/nodemanager-local-dir
 yarn.nodemanager.log-dirs: /data/yarn-userlogs
 yarn.nodemanager.remote-app-log-dir: /data/yarn-remotelogs
+yarn.resourcemanager.bind-host: 0.0.0.0
+yarn.nodemanager.bind-host: 0.0.0.0
