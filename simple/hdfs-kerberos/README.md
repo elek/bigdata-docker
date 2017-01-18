@@ -11,6 +11,8 @@ docker-compose exec krb5 hostname
 
 #Modify the .env to use the hostname from the previous output
 
+docker-compose run namenode /opt/hadoop/bin/hdfs namenode -format
+
 docker-compose up namenode
 docker-compose up datanode
 ```
@@ -24,3 +26,10 @@ curl -v --negotiate -u : "http://sc:50070/webhdfs/v1/?op=LISTSTATUS&user.name=ro
 klist
 ```
 
+Note: for OSX you may need to fix the hostname resolution for the moby hostname:
+
+```
+screen  ~/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-linux/tty
+```
+
+And add moby to the 127.0.0.1 in /etc/hosts

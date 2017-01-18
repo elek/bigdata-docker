@@ -14,6 +14,7 @@ services:
       volumes:
          - "/tmp:/data"
          - "./krb5.conf:/etc/krb5.conf"
+         - "/Users/melek/projects/hadoop-btrace:/root/hadoop-btrace"
       environment:
          CORE-SITE_fs.default.name: "hdfs://localhost:9000"
          HDFS-SITE_dfs.namenode.rpc-address: "localhost:9000"
@@ -25,12 +26,18 @@ services:
          HDFS-SITE_dfs.namenode.keytab.file: /data/nn.service.keytab
          HDFS-SITE_dfs.web.authentication.kerberos.principal: HTTP/${HOST_NAME}@EXAMPLE.COM
          HDFS-SITE_dfs.web.authentication.kerberos.keytab: /data/http.service.keytab
+         HADOOP_OPTS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"
+         HDFS-SITE_dfs.block.access.token.enable: "true"
+         HDFS-SITE_dfs.block.access.key.update.interval: 5
+         HDFS-SITE_dfs.block.access.token.lifetime: 10
    datanode:
       image: elek/hadoop-hdfs-datanode:${HADOOP_VERSION}
       container_name: datanode
       volumes:
          - "/tmp:/data"
          - "./krb5.conf:/etc/krb5.conf"
+         - "./sc.dn.keystore:/opt/hadoop/etc/hadoop/sc.dn.keystore"
+         - "./hadoop.truststore:/opt/hadoop/etc/hadoop/hadoop.truststore"
       network_mode: host
       environment:
          CORE-SITE_fs.default.name: "hdfs://localhost:9000"
@@ -44,4 +51,12 @@ services:
          CORE-SITE_dfs.data.transfer.protection: authentication
          HDFS-SITE_dfs.datanode.address: 0.0.0.0:1004
          HDFS-SITE_dfs.datanode.http.address: 0.0.0.0:1006
-         HDFS-SITE_ignore.secure.ports.for.testing: "true"
+         HDFS-SITE_dfs.data.transfer.protection: authentication
+         HDFS-SITE_dfs.http.policy: HTTPS_ONLY
+         HADOOP_CONF_DIR: /opt/hadoop/etc/hadoop
+         SSL-SERVER.xml_ssl.server.keystore.location: /opt/hadoop/etc/hadoop/sc.dn.keystore
+         SSL-SERVER.xml_ssl.server.keystore.password: Welcome1
+         HDFS-SITE_dfs.block.access.token.enable: "true"
+         HDFS-SITE_dfs.block.access.key.update.interval: 5
+         HDFS-SITE_dfs.block.access.token.lifetime: 10
+#         HADOOP_OPTS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005"
