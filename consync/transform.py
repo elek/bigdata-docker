@@ -1,6 +1,7 @@
 
 import os
 import re
+from . import transformation
 
 class Transform:
 
@@ -10,7 +11,7 @@ class Transform:
     def transform_content(self, filepath, content):
        trans = self.find_transformation(filepath, self.basepath)
        if trans:
-           content = getattr(self,"to_%s" % trans)(content)
+           content = getattr(transformation,"to_%s" % trans)(content)
        return content
 
     def find_transformation(self, filepath, basepath):
