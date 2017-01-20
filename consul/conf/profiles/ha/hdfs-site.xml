@@ -1,0 +1,12 @@
+dfs.nameservices: sh
+dfs.ha.namenodes.sh: nn1,nn2
+dfs.namenode.rpc-address.sh.nn1: {{env.GATEWAY_HOST}}:8021
+dfs.namenode.rpc-address.sh.nn2: {{env.GATEWAY_HOST}}:8022
+dfs.namenode.servicerpc-address.sh.nn1: {{env.GATEWAY_HOST}}:8023
+dfs.namenode.servicerpc-address.sh.nn2: {{env.GATEWAY_HOST}}:8024
+dfs.namenode.http-address.sh.nn1: {{env.GATEWAY_HOST}}:50070
+dfs.namenode.http-address.sh.nn2: {{env.GATEWAY_HOST}}:50071
+dfs.ha.fencing.methods: shell(/bin/true)
+#dfs.client.failover.proxy.provider.sh: org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider
+dfs.ha.automatic-failover.enabled: false
+dfs.ha.namenode.id: nn1

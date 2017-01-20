@@ -1,0 +1,2 @@
+fs.default.name: hdfs://sh
+fs.defaultFS: hdfs://sh

@@ -9,3 +9,7 @@ dfs.block.access.key.update.interval: 5
 dfs.block.access.token.lifetime: 10
 dfs.data.transfer.protection: authentication
 dfs.http.policy: HTTPS_ONLY
+
+dfs.namenode.delegation.key.update-interval: 60000
+dfs.namenode.delegation.token.max-lifetime: 120000
+dfs.namenode.delegation.token.renew-interval: 60000
