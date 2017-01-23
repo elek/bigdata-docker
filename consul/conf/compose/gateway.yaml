@@ -2,16 +2,17 @@ version: "2"
 services:
    namenode:
       container_name: namenode
-      image: elek/hadoop-hdfs-namenode
+      image: elek/hadoop-hdfs-namenode:3.0.0-alpha2
       network_mode: host
       volumes:
          - "{{env.DATA_DIR}}:/data"
       environment:
          CONFIG_TYPE: "consul"
          CONSUL_KEY: "hdfs"
+         HADOOP_CONF_DIR: "/opt/hadoop/etc/hadoop"
    datanode:
       container_name: datanode
-      image: elek/hadoop-hdfs-datanode
+      image: elek/hadoop-hdfs-datanode:3.0.0-alpha2
       volumes:
          - "{{env.DATA_DIR}}:/data"
       network_mode: host
@@ -20,14 +21,14 @@ services:
          CONSUL_KEY: "hdfs"
    resourcemanager:
       container_name: resourcemanager
-      image: elek/hadoop-yarn-resourcemanager
+      image: elek/hadoop-yarn-resourcemanager:3.0.0-alpha2
       network_mode: host
       environment:
          CONFIG_TYPE: "consul"
          CONSUL_KEY: "yarn"
    nodemanager:
       container_name: nodemanager
-      image: elek/hadoop-yarn-nodemanager
+      image: elek/hadoop-yarn-nodemanager:3.0.0-alpha2
       network_mode: host
       environment:
          CONFIG_TYPE: "consul"
@@ -73,6 +74,25 @@ services:
       environment:
          CONFIG_TYPE: "consul"
          CONSUL_KEY: "spark"
+   sparkmaster:
+      container_name: sparkmaster
+      image: elek/spark-master:2.0.2
+      network_mode: host
+      volumes:
+         - "{{env.DATA_DIR}}:/data"
+      environment:
+         CONFIG_TYPE: "consul"
+         CONSUL_KEY: "spark"
+   sparkslave:
+      container_name: sparkslave
+      image: elek/spark-slave:2.0.2
+      network_mode: host
+      volumes:
+         - "{{env.DATA_DIR}}:/data"
+      environment:
+         CONFIG_TYPE: "consul"
+         CONSUL_KEY: "spark"
+         SPARK_MASTER_HOST: "{{env.GATEWAY_HOST}}:7077"
    flume:
       container_name: flume
       image: elek/flume
