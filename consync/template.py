@@ -1,5 +1,5 @@
 
-from jinja2 import Environment, FileSystemLoader
+from jinja2 import Environment, FileSystemLoader, StrictUndefined
 import os
 
 class Template:
@@ -8,5 +8,5 @@ class Template:
         self.basedir = basedir
 
    def transform_content(self, filepath, content):
-       t = Environment(loader=FileSystemLoader(os.path.dirname(filepath))).from_string(content)
+       t = Environment(loader=FileSystemLoader(os.path.dirname(filepath)), undefined = StrictUndefined).from_string(content)
        return t.render(env = os.environ)
