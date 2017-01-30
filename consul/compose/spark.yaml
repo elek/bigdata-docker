@@ -1,7 +1,5 @@
 version: "2"
 services:
-{% include 'hdfs-components.yaml' %}
-{% include 'yarn-components.yaml' %}
    zeppelin:
       image: elek/zeppelin
       network_mode: host

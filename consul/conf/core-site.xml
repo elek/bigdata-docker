@@ -1,2 +1,0 @@
-fs.default.name: hdfs://{{env.GATEWAY_HOST}}:9000
-fs.defaultFS: hdfs://{{env.GATEWAY_HOST}}:9000

@@ -1,0 +1,6 @@
+dfs.namenode.rpc-address: ${GATEWAY_HOST}:9000
+dfs.replication: 1
+dfs.permissions.superusergroup: admin
+dfs.datanode.data.dir: /data/datanode
+dfs.namenode.name.dir: /data/namenode
+dfs.namenode.http-bind-host: 0.0.0.0

@@ -1,7 +1,7 @@
    datanode:
       image: elek/hadoop-hdfs-datanode
       volumes:
-         - "{{env.DATA_DIR}}:/data"
+         - "${DATA_DIR}:/data"
       network_mode: host
       environment:
          CONFIG_TYPE: "consul"
@@ -10,7 +10,7 @@
       image: elek/hadoop-hdfs-namenode
       network_mode: host
       volumes:
-         - "{{env.DATA_DIR}}:/data"
+         - "${DATA_DIR}:/data"
       environment:
          CONFIG_TYPE: "consul"
          CONSUL_KEY: "hdfs"

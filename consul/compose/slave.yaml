@@ -1,8 +1,6 @@
-version: "2"
-services:
    datanode:
       container_name: datanode
-      image: elek/hadoop-hdfs-datanode
+      image: elek/hadoop-hdfs-datanode:3.0.0-alpha2
       volumes:
          - "${DATA_DIR}:/data"
       network_mode: host
@@ -11,7 +9,7 @@ services:
          CONSUL_KEY: "hdfs"
    nodemanager:
       container_name: nodemanager
-      image: elek/hadoop-yarn-nodemanager
+      image: elek/hadoop-yarn-nodemanager:3.0.0-alpha2
       network_mode: host
       volumes:
          - "${DATA_DIR}:/data"

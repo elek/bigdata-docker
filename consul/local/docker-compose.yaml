@@ -3,7 +3,7 @@ services:
    consul:
       image: progrium/consul
       network_mode: host
-      command: "--server --bootstrap --advertise=127.0.0.1"
+      command: "--server --bootstrap"
    consulcompose:
       image: elek/consul-compose
       network_mode: host

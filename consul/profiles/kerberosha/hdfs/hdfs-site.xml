@@ -1,0 +1,13 @@
+dfs.journalnode.kerberos.principal: journal/${GATEWAY_HOST}@EXAMPLE.COM
+dfs.journalnode.keytab.file: /data/journal.service.keytab
+
+dfs.journalnode.kerberos.internal.spnego.principal: HTTP/${GATEWAY_HOST}@EXAMPLE.COM
+
+dfs.namenode.kerberos.principal: nn2/${GATEWAY_HOST}@EXAMPLE.COM
+dfs.namenode.keytab.file: /data/nn2.service.keytab
+
+dfs.namenode.kerberos.principal.nn1: nn1/${GATEWAY_HOST}@EXAMPLE.COM
+dfs.namenode.keytab.file.nn1: /data/nn1.service.keytab
+
+dfs.namenode.https-address.sh.nn1: ${GATEWAY_HOST}:50074
+dfs.namenode.https-address.sh.nn2: ${GATEWAY_HOST}:50075

@@ -1,12 +1,8 @@
 #!/bin/bash
 export HOST_NAME=`hostname`
-kadmin.local -q "addprinc nn/${HOST_NAME}@EXAMPLE.COM"
-kadmin.local -q "ktadd -k /data/nn.service.keytab nn/${HOST_NAME}@EXAMPLE.COM"
-kadmin.local -q "addprinc dn/${HOST_NAME}@EXAMPLE.COM"
-kadmin.local -q "ktadd -k /data/dn.service.keytab dn/${HOST_NAME}@EXAMPLE.COM"
-kadmin.local -q "addprinc HTTP/${HOST_NAME}@EXAMPLE.COM"
-kadmin.local -q "ktadd -k /data/http.service.keytab HTTP/${HOST_NAME}@EXAMPLE.COM"
-kadmin.local -q "addprinc nm/${HOST_NAME}@EXAMPLE.COM"
-kadmin.local -q "ktadd -k /data/nm.service.keytab nm/${HOST_NAME}@EXAMPLE.COM"
-kadmin.local -q "addprinc rm/${HOST_NAME}@EXAMPLE.COM"
-kadmin.local -q "ktadd -k /data/rm.service.keytab rm/${HOST_NAME}@EXAMPLE.COM"
+names=( nn dn HTTP rm journal nn1 nn2)
+for i in "${names[@]}"
+do
+  kadmin.local -q "addprinc -randkey $i/${HOST_NAME}@EXAMPLE.COM"
+  kadmin.local -q "ktadd -k /data/$i.service.keytab $i/${HOST_NAME}@EXAMPLE.COM"
+done

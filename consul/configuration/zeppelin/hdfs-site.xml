@@ -1,0 +1,1 @@
+{%include "hdfs/hdfs-site.xml"%}

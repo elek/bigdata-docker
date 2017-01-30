@@ -1,0 +1,12 @@
+---
+- hosts: all
+  tasks:
+     - name:
+       docker_container:
+          name: registrator
+          image: elek/registrator.py
+          state: started
+          network_mode: host
+          pull: true
+          volumes:
+            - "/var/run/docker.sock:/var/run/docker.sock"

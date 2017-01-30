@@ -18,4 +18,4 @@
           state: started
           network_mode: host
           pull: true
-          command: "--server --join 172.22.66.76"
+          command: "--server --join 172.22.126.136"

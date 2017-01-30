@@ -1,0 +1,2 @@
+ssl.client.truststore.location: /data/hadoop.truststore
+ssl.client.truststore.password: Welcome1

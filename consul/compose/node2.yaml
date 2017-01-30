@@ -1,0 +1,12 @@
+version: "2"
+services:
+{% include 'compose/slave.yaml' %}
+   sparkhistory:
+      container_name: sparkhistory
+      image: elek/spark-history:2.1.0
+      network_mode: host
+      volumes:
+         - "${DATA_DIR}:/data"
+      environment:
+         CONFIG_TYPE: "consul"
+         CONSUL_KEY: "spark"

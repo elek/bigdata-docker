@@ -1,0 +1,5 @@
+ssl.server.keystore.location: /data/sc.dn.keystore
+ssl.server.keystore.password: Welcome1
+ssl.server.keystore.keypassword: Welcome1
+ssl.server.truststore.location: /data/hadoop.truststore
+ssl.server.truststore.password: Welcome1
