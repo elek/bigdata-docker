@@ -1,6 +1,6 @@
    datanode:
       container_name: datanode
-      image: elek/hadoop-hdfs-datanode:3.0.0-alpha2
+      image: elek/hadoop-hdfs-datanode:latest
       volumes:
          - "${DATA_DIR}:/data"
       network_mode: host
@@ -9,7 +9,7 @@
          CONSUL_KEY: "hdfs"
    nodemanager:
       container_name: nodemanager
-      image: elek/hadoop-yarn-nodemanager:3.0.0-alpha2
+      image: elek/hadoop-yarn-nodemanager:latest
       network_mode: host
       volumes:
          - "${DATA_DIR}:/data"
@@ -24,4 +24,4 @@
         - "${DATA_DIR}:/data"
      environment:
         CONFIG_TYPE: "consul"
-        CONFIG_KEY: "hbase"
+        CONSUL_KEY: "hbase"

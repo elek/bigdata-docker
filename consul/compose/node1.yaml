@@ -3,7 +3,7 @@ services:
 {% include 'compose/slave.yaml' %}
    namenode:
       container_name: namenode
-      image: elek/hadoop-hdfs-namenode:3.0.0-alpha2
+      image: elek/hadoop-hdfs-namenode:latest
       network_mode: host
       volumes:
          - "${DATA_DIR}:/data"
@@ -11,8 +11,8 @@ services:
          CONFIG_TYPE: "consul"
          CONSUL_KEY: "hdfs"
    resourcemanager:
-      container_name: resourcemanager:3.0.0-alpha2
-      image: elek/hadoop-yarn-resourcemanager
+      container_name: resourcemanager
+      image: elek/hadoop-yarn-resourcemanager:latest
       network_mode: host
       environment:
          CONFIG_TYPE: "consul"
@@ -35,10 +35,14 @@ services:
          CONSUL_KEY: "zookeeper"
    zeppelin:
       container_name: zeppelin
-      image: elek/zeppelin
+      image: elek/zeppelin:0.7.0
       network_mode: host
       volumes:
          - "${DATA_DIR}:/data"
       environment:
          CONFIG_TYPE: "consul"
          CONSUL_KEY: "zeppelin"
+   postgres:
+      container_name: postgres
+      image: postgres:9.6.1-alpine
+      network_mode: host
