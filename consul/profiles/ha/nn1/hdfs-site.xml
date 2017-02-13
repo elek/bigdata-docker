@@ -1,2 +1,0 @@
-{%include "hdfs/hdfs-site.xml"%}
-dfs.ha.namenode.id: nn1

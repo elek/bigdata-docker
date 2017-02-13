@@ -1,3 +1,0 @@
-{%include "hdfs/hdfs-site.xml"%}
-dfs.namenode.name.dir: /data/namenode2
-dfs.ha.namenode.id: nn2

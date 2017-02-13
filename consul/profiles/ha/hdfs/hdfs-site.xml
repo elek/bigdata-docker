@@ -9,5 +9,5 @@ dfs.namenode.http-address.sh.nn2: ${GATEWAY_HOST}:50071
 dfs.ha.fencing.methods: shell(/bin/true)
 dfs.client.failover.proxy.provider.sh: org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider
 dfs.ha.automatic-failover.enabled: false
-dfs.ha.namenode.id: {{env "NAMENODE_ID"}}
+dfs.ha.namenode.id: {{env.NAMENODE_ID}}
 dfs.namenode.shared.edits.dir: qjournal://127.0.0.1:8485/sh

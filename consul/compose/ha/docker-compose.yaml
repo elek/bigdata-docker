@@ -8,7 +8,8 @@ services:
          - "${DATA_DIR}:/data"
       environment:
          CONFIG_TYPE: "consul"
-         CONSUL_KEY: "nn1"
+         CONSUL_KEY: "hdfs"
+         NAMENODE_ID: "nn1"
    namenode2:
          container_name: namenode2
          image: elek/hadoop-hdfs-namenode
@@ -17,7 +18,8 @@ services:
             - "${DATA_DIR}:/data"
          environment:
             CONFIG_TYPE: "consul"
-            CONSUL_KEY: "nn2"
+            CONSUL_KEY: "hdfs"
+            NAMENODE_ID: "nn2"
    datanode:
          container_name: datanode
          image: elek/hadoop-hdfs-datanode
