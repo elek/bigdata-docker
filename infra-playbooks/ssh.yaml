@@ -1,0 +1,7 @@
+---
+- hosts: all
+  tasks:
+     - file: path=/root/.ssh state=directory
+     - copy: dest=/root/.ssh/ src=id_rsa mode=600
+     - copy: dest=/root/.ssh/ src=id_rsa.pub
+     - authorized_key: user=root key="{{ lookup('file', 'id_rsa.pub') }}"
