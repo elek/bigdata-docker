@@ -28,13 +28,13 @@ This repository contains example cluster configuration, using different ways to 
 
 ## Examples
 
-| directory          | configuration type    | docker container starter        | provisioning                                  | cluster type  | network (*)
-|--------------------|-----------------------|---------------------------------|-----------------------------------------------|---------------|------------------
-| [simple][simple]   | environment variables | docker-compose                  |                                               | local         | Using host network
-| [compose][compose] | environment variables | docker-compose                  |                                               | local         | Using dedicated docker network
-| consul             | consul                | consul-composer (docker-compose)|  [consul-compose][consulcompose](+ansible)    | local/cluster | Using host network
-| spring             | spring config server  | docker-compose                  |                                               | local/cluster | Using host network
-| [ansible][ansible] | environment variables | docker (ansible module)         | ansible                                       | cluster       | Using host network
+| directory              | configuration type    | docker container starter        | provisioning                                  | cluster type  | network (*)
+|------------------------|-----------------------|---------------------------------|-----------------------------------------------|---------------|------------------
+| [simple][simple]       | environment variables | docker-compose                  |                                               | local         | Using host network
+| [compose][compose]     | environment variables | docker-compose                  |                                               | local         | Using dedicated docker network
+| [consul][consulconfig] | consul                | consul-composer (docker-compose)|  [consul-compose][consulcompose](+ansible)    | local/cluster | Using host network
+| spring                 | spring config server  | docker-compose                  |                                               | local/cluster | Using host network
+| [ansible][ansible]     | environment variables | docker (ansible module)         | ansible                                       | cluster       | Using host network
 
 * Host network is not a limitation just the example uses this simplified approach.
 
@@ -45,5 +45,6 @@ This is the most simple option. All of the application will use the network of t
 [simple]: https://github.com/elek/bigdata-docker/blob/master/simple/README.md
 [compose]: https://github.com/elek/bigdata-docker/blob/master/compose/README.md
 [ansible]: https://github.com/elek/bigdata-docker/blob/master/ansible/README.md
+[consulconfig]: https://github.com/elek/bigdata-docker/blob/master/consul/README.md
 [consulcompose]: https://github.com/elek/docker-consul-compose
 [consync]: https://github.com/elek/consync
