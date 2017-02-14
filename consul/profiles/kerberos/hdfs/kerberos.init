@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+export NAME=nn
+{% include "keytab.generate" %}
+export NAME=dn
+{% include "keytab.generate" %}
+export NAME=HTTP
+{% include "keytab.generate" %}

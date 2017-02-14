@@ -1,0 +1,13 @@
+export HOST=`hostname`
+if [ -n "$KERBEROS_HOST" ]; then
+   HOST=$KERBEROS_HOST
+fi
+export KRB5_CONFIG=/opt/hadoop/etc/hadoop/krb5.cfg
+export DEST_FILE=$CONF_DIR/$NAME.service.keytab
+if [ ! -f /usr/bin/kadmin ]; then
+   apk add --update --no-cache krb5
+fi
+if [ ! -f $DEST_FILE ]; then
+   kadmin -s localhost -p admin/admin@EXAMPLE.COM -k -t $CONF_DIR/admin.keytab -q "addprinc -randkey $NAME/$HOST@EXAMPLE.COM"
+   kadmin -s localhost -p admin/admin@EXAMPLE.COM -k -t $CONF_DIR/admin.keytab -q "ktadd -k $DEST_FILE  $NAME/$HOST@EXAMPLE.COM"
+fi
