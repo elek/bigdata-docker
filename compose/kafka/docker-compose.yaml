@@ -1,0 +1,28 @@
+version: "2"
+services:
+   kafka:
+      image: elek/kafka:latest
+      container_name: kafka
+      hostname: kafka
+      volumes:
+         - /tmp:/data
+         - /home/elek/projects/hadoop-btrace:/btrace
+      ports:
+         - 50071:50070
+      links:
+        - zookeeper
+      environment:
+        SERVER.PROPERTIES!CFG_zookeeper.connect: "zookeeper:2181"
+        SERVER.PROPERTIES!CFG_num.partitions: 1
+   zookeeper:
+      hostname: zookeeper
+      container_name: zookeeper
+      image: elek/zookeeper:latest
+      volumes:
+        - /tmp:/data
+      ports:
+        - "2181:2181"
+networks:
+   default:
+      external:
+         name: hadoop
