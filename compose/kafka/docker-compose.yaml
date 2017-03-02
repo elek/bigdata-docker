@@ -2,13 +2,10 @@ version: "2"
 services:
    kafka:
       image: elek/kafka:latest
-      container_name: kafka
-      hostname: kafka
       volumes:
          - /tmp:/data
-         - /home/elek/projects/hadoop-btrace:/btrace
       ports:
-         - 9092:9092
+         - 9092
       links:
         - zookeeper
       environment:
