@@ -8,7 +8,7 @@ services:
          - /tmp:/data
          - /home/elek/projects/hadoop-btrace:/btrace
       ports:
-         - 50071:50070
+         - 9092:9092
       links:
         - zookeeper
       environment:
@@ -22,6 +22,27 @@ services:
         - /tmp:/data
       ports:
         - "2181:2181"
+   kafkarest:
+      hostname: kafkarest
+      container_name: kafkarest
+      image: confluentinc/cp-kafka-rest
+      environment:
+        KAFKA_REST_HOST_NAME: kafkarest
+        KAFKA_REST_ZOOKEEPER_CONNECT: "zookeeper:2181"
+        KAFKA_REST_LISTENERS: "http://0.0.0.0:9082"
+      ports:
+        - "9082:9082"
+   kafkatopics:
+      container_name: kafkatopics
+      image: landoop/kafka-topics-ui
+      ports:
+        - "8000:8000"
+      environment:
+         KAFKA_REST_PROXY_URL: "http://kafkarest:9082"
+         PROXY: "true"
+
+
+
 networks:
    default:
       external:
