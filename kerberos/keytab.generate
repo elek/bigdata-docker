@@ -1,8 +1,0 @@
-#!/bin/bash
-export HOST_NAME=`hostname`
-names=( nn dn HTTP rm journal nn1 nn2)
-for i in "${names[@]}"
-do
-  kadmin.local -q "addprinc -randkey $i/${HOST_NAME}@EXAMPLE.COM"
-  kadmin.local -q "ktadd -k /data/$i.service.keytab $i/${HOST_NAME}@EXAMPLE.COM"
-done

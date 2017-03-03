@@ -1,4 +1,4 @@
-ssl.client.keystore.location: /opt/hadoop/etc/hadoop/sc.keystore
+ssl.client.keystore.location: /opt/hadoop/etc/hadoop/namenode.keystore
 ssl.client.keystore.password: Welcome1
 ssl.client.keystore.keypassword: Welcome1
 ssl.client.truststore.location: /opt/hadoop/etc/hadoop/hadoop.truststore

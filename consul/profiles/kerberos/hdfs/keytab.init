@@ -1,0 +1,8 @@
+#/usr/bin/env bash
+set -ex
+curl localhost:8081/keytab/`hostname`/nn -o /opt/hadoop/etc/hadoop/nn.service.keytab
+curl localhost:8081/keytab/`hostname`/dn -o /opt/hadoop/etc/hadoop/dn.service.keytab
+curl localhost:8081/keytab/`hostname`/HTTP -o /opt/hadoop/etc/hadoop/HTTP.service.keytab
+
+curl localhost:8081/truststore -o /opt/hadoop/etc/hadoop/hadoop.truststore
+curl localhost:8081/keystore/namenode -o /opt/hadoop/etc/hadoop/namenode.keystore
