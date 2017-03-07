@@ -1,0 +1,84 @@
+version: "2"
+services:
+   nn1:
+      image: elek/hadoop-hdfs-namenode:2.7.3
+      container_name: nn1
+      hostname: nn1
+      volumes:
+         - /tmp:/data
+      ports:
+         - 50070:50070
+         - 9870:9870
+      environment:
+          HDFS-SITE.XML_dfs.nameservices: nn1,nn2
+          HDFS-SITE.XML_dfs.nameservice.id: nn1
+          HDFS-SITE.XML_dfs.namenode.rpc-address.nn1: "nn1:9000"
+          HDFS-SITE.XML_dfs.namenode.name.dir.nn1: "/data/nn1"
+          HDFS-SITE.XML_dfs.namenode.rpc-address.nn2: "nn2:9000"
+          HDFS-SITE.XML_dfs.replication: "1"
+          HDFS-SITE.XML_dfs.permissions.superusergroup: "admin"
+          HDFS-SITE.XML_dfs.namenode.http-bind-host: "0.0.0.0"
+          LOG4J.PROPERTIES_log4j.rootLogger: "INFO, stdout"
+          LOG4J.PROPERTIES_log4j.appender.stdout: "org.apache.log4j.ConsoleAppender"
+          LOG4J.PROPERTIES_log4j.appender.stdout.layout: "org.apache.log4j.PatternLayout"
+          LOG4J.PROPERTIES_log4j.appender.stdout.layout.ConversionPattern: "%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n"
+          CORE-SITE.XML_fs.default.name: "hdfs://nn1:9000"
+          CORE-SITE.XML_fs.defaultFS: "hdfs://nn1:9000"
+   nn2:
+      image: elek/hadoop-hdfs-namenode:2.7.3
+      container_name: nn2
+      hostname: nn2
+      volumes:
+         - /tmp:/data
+      ports:
+         - 50071:50070
+         - 9871:9870
+      environment:
+          HDFS-SITE.XML_dfs.nameservices: nn1,nn2
+          HDFS-SITE.XML_dfs.nameservice.id: nn2
+          HDFS-SITE.XML_dfs.namenode.rpc-address.nn2: "nn2:9000"
+          HDFS-SITE.XML_dfs.namenode.name.dir.nn2: "/data/nn2"
+          HDFS-SITE.XML_dfs.namenode.rpc-address.nn2: "nn2:9000"
+          HDFS-SITE.XML_dfs.replication: "1"
+          HDFS-SITE.XML_dfs.permissions.superusergroup: "admin"
+          HDFS-SITE.XML_dfs.namenode.http-bind-host: "0.0.0.0"
+          LOG4J.PROPERTIES_log4j.rootLogger: "INFO, stdout"
+          LOG4J.PROPERTIES_log4j.appender.stdout: "org.apache.log4j.ConsoleAppender"
+          LOG4J.PROPERTIES_log4j.appender.stdout.layout: "org.apache.log4j.PatternLayout"
+          LOG4J.PROPERTIES_log4j.appender.stdout.layout.ConversionPattern: "%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n"
+          CORE-SITE.XML_fs.default.name: "hdfs://nn2:9000"
+          CORE-SITE.XML_fs.defaultFS: "hdfs://nn2:9000"
+   datanode:
+      image: elek/hadoop-hdfs-datanode:2.7.3
+      links:
+         - nn1
+         - nn2
+      environment:
+          HDFS-SITE.XML_dfs.nameservices: nn1,nn2
+          HDFS-SITE.XML_dfs.namenode.rpc-address.nn1: "nn1:9000"
+          HDFS-SITE.XML_dfs.namenode.rpc-address.nn2: "nn2:9000"
+          HDFS-SITE.XML_dfs.permissions.superusergroup: "admin"
+          LOG4J.PROPERTIES_log4j.rootLogger: "INFO, stdout"
+          LOG4J.PROPERTIES_log4j.appender.stdout: "org.apache.log4j.ConsoleAppender"
+          LOG4J.PROPERTIES_log4j.appender.stdout.layout: "org.apache.log4j.PatternLayout"
+          LOG4J.PROPERTIES_log4j.appender.stdout.layout.ConversionPattern: "%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n"
+          CORE-SITE.XML_fs.default.name: "hdfs://nn2:9000"
+          CORE-SITE.XML_fs.defaultFS: "hdfs://nn2:9000"
+   hdfsclient:
+      image: elek/hadoop-hdfs-datanode:2.7.3
+      links:
+         - nn1
+         - nn2
+         - datanode
+      environment:
+          HDFS-SITE.XML_dfs.nameservices: nn1,nn2
+          HDFS-SITE.XML_dfs.namenode.rpc-address.nn1: "nn1:9000"
+          HDFS-SITE.XML_dfs.namenode.rpc-address.nn2: "nn2:9000"
+          HDFS-SITE.XML_dfs.permissions.superusergroup: "admin"
+          LOG4J.PROPERTIES_log4j.rootLogger: "INFO, stdout"
+          LOG4J.PROPERTIES_log4j.appender.stdout: "org.apache.log4j.ConsoleAppender"
+          LOG4J.PROPERTIES_log4j.appender.stdout.layout: "org.apache.log4j.PatternLayout"
+          LOG4J.PROPERTIES_log4j.appender.stdout.layout.ConversionPattern: "%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n"
+          CORE-SITE.XML_fs.default.name: "viewfs://cluster1"
+          CORE-SITE.XML_fs.viewfs.mounttable.cluster1.link./nn1: hdfs://nn1:9000/
+          CORE-SITE.XML_fs.viewfs.mounttable.cluster1.link./nn2: hdfs://nn2:9000/
