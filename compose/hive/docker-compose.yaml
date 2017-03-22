@@ -1,0 +1,29 @@
+version: "2"
+services:
+   postgres:
+      image: postgres:9.6.2-alpine
+      hostname: postgres
+      container_name: postgres
+      environment:
+        POSTGRES_USER: hive
+        POSTGRES_DB: hive
+        POSTGRES_PASSWORD: hive
+   hivemetastore:
+      image: elek/hive-metastore:latest
+      container_name: hive_metastore
+      hostname: hivemetastore
+      volumes:
+         - /tmp:/data
+      environment:
+         HIVE-SITE.XML_javax.jdo.option.ConnectionURL: "jdbc:postgresql://postgres/hive"
+         HIVE-SITE.XML_javax.jdo.option.ConnectionDriverName: "org.postgresql.Driver"
+         HIVE-SITE.XML_javax.jdo.option.ConnectionUserName: "hive"
+         HIVE-SITE.XML_javax.jdo.option.ConnectionPassword: "hive"
+         HIVE-SITE.XML_datanucleus.autoCreateSchema: "true"
+         HIVE-SITE.XML_hive.metastore.uris: "thrift://hivemetastore:9083"
+         HIVE-SITE.XML_hive.metastore.schema.verification: "true"
+
+networks:
+   default:
+      external:
+         name: hadoop
