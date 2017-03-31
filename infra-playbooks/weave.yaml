@@ -3,7 +3,7 @@
   tasks:
    - docker_container:
           name: weavescope
-          image: weaveworks/scope:1.1.0
+          image: weaveworks/scope:1.3.0
           state: started
           network_mode: host
           restart_policy: always          
