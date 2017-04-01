@@ -1,7 +1,7 @@
 version: "2"
 services:
    namenode:
-      image: elek/hadoop-hdfs-namenode:3.0.0-alpha2
+      image: elek/hadoop-hdfs-namenode:latest
       container_name: hdfs_namenode
       hostname: namenode
       volumes:
@@ -30,7 +30,7 @@ services:
           CORE-SITE.XML_fs.default.name: "hdfs://namenode:9000"
           CORE-SITE.XML_fs.defaultFS: "hdfs://namenode:9000"
    datanode:
-      image: elek/hadoop-hdfs-datanode:3.0.0-alpha2
+      image: elek/hadoop-hdfs-datanode:latest
       volumes:
         - /tmp:/data
       links:

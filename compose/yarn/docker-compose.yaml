@@ -1,12 +1,16 @@
 version: "2"
 services:
    resourcemanager:
-      image: elek/hadoop-yarn-resourcemanager:3.0.0-alpha2
+      image: elek/hadoop-yarn-resourcemanager:latest
       container_name: yarn_resourcemanager
+      volumes:
+        - /tmp:/data
       ports:
          - 8088:8088
       environment:
           MAPRED-SITE.XML_mapreduce.framework.name: "yarn"
+          CORE-SITE.XML_fs.default.name: "hdfs://namenode:9000"
+          CORE-SITE.XML_fs.defaultFS: "hdfs://namenode:9000"
           YARN-SITE.XML_yarn.resourcemanager.hostname: "resourcemanager"
           YARN-SITE.XML_yarn.nodemanager.pmem-check-enabled: "false"
           YARN-SITE.XML_yarn.nodemanager.delete.debug-delay-sec: "600"
@@ -37,7 +41,7 @@ services:
           CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.queue-mappings: ""
           CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.queue-mappings-override.enable: "false"
    nodemanager:
-      image: elek/hadoop-yarn-nodemanager:3.0.0-alpha2
+      image: elek/hadoop-yarn-nodemanager:latest
       links:
          - resourcemanager
       environment:
