@@ -1,9 +1,8 @@
 version: "2"
 services:
-{% include 'compose/slave.yaml' %}
    namenode:
       container_name: namenode
-      image: elek/hadoop-hdfs-namenode:latest
+      image: elek/hadoop-hdfs-namenode:2.8.0
       network_mode: host
       volumes:
          - "${DATA_DIR}:/data"
@@ -12,7 +11,7 @@ services:
          CONSUL_KEY: "hdfs"
    resourcemanager:
       container_name: resourcemanager
-      image: elek/hadoop-yarn-resourcemanager:latest
+      image: elek/hadoop-yarn-resourcemanager:2.8.0
       network_mode: host
       environment:
          CONFIG_TYPE: "consul"
@@ -20,6 +19,8 @@ services:
    hbasemaster:
       container_name: hbasemaster
       image: elek/hbase-master
+      volumes:
+       - "${DATA_DIR}:/data"
       network_mode: host
       environment:
          CONFIG_TYPE: "consul"
@@ -42,7 +43,12 @@ services:
       environment:
          CONFIG_TYPE: "consul"
          CONSUL_KEY: "zeppelin"
-   postgres:
-      container_name: postgres
-      image: postgres:9.6.1-alpine
+   sparkhistory:
+      container_name: sparkhistory
+      image: elek/spark-history:2.1.0
       network_mode: host
+      volumes:
+         - "${DATA_DIR}:/data"
+      environment:
+         CONFIG_TYPE: "consul"
+         CONSUL_KEY: "spark"

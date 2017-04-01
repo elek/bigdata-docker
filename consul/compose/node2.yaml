@@ -1,12 +1,30 @@
 version: "2"
 services:
 {% include 'compose/slave.yaml' %}
-   sparkhistory:
-      container_name: sparkhistory
-      image: elek/spark-history:2.1.0
-      network_mode: host
+   kafka:
+      container_name: kafka
+      image: elek/kafka:latest
       volumes:
-         - "${DATA_DIR}:/data"
+         - ${DATA_DIR}:/data
+      network_mode: host
       environment:
-         CONFIG_TYPE: "consul"
-         CONSUL_KEY: "spark"
+        CONFIG_TYPE: "consul"
+        CONSUL_KEY: "kafka"
+   kafkarest:
+      hostname: kafkarest
+      container_name: kafkarest
+      image: confluentinc/cp-kafka-rest
+      network_mode: host
+      environment:
+        KAFKA_REST_HOST_NAME: kafkarest
+        KAFKA_REST_ZOOKEEPER_CONNECT: "${GATEWAY_HOST}:2181"
+        KAFKA_REST_LISTENERS: "http://0.0.0.0:9082"
+      ports:
+        - "9082:9082"
+   kafkatopics:
+      container_name: kafkatopics
+      image: landoop/kafka-topics-ui
+      network_mode: host
+      environment:
+         KAFKA_REST_PROXY_URL: "http://localhost:9082"
+         PROXY: "true"
