@@ -16,13 +16,21 @@
       environment:
          CONFIG_TYPE: "consul"
          CONSUL_KEY: "yarn"
-#as
-   hbaseregion:
-     container_name: hbaseregion
-     image: elek/hbase-regionserver
-     network_mode: host
-     volumes:
-        - "${DATA_DIR}:/data"
-     environment:
-        CONFIG_TYPE: "consul"
-        CONSUL_KEY: "hbase"
+   # hbaseregion:
+   #   container_name: hbaseregion
+   #   image: elek/hbase-regionserver
+   #   network_mode: host
+   #   volumes:
+   #      - "${DATA_DIR}:/data"
+   #   environment:
+   #      CONFIG_TYPE: "consul"
+   #      CONSUL_KEY: "hbase"
+   stormsupervisor:
+      container_name: supervisor
+      image: elek/storm-supervisor
+      network_mode: host
+      volumes:
+         - "${DATA_DIR}:/data"
+      environment:
+         CONFIG_TYPE: "storm"
+         CONSUL_KEY: "spark"

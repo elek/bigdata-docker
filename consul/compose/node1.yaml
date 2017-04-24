@@ -16,15 +16,15 @@ services:
       environment:
          CONFIG_TYPE: "consul"
          CONSUL_KEY: "yarn"
-   hbasemaster:
-      container_name: hbasemaster
-      image: elek/hbase-master
-      volumes:
-       - "${DATA_DIR}:/data"
-      network_mode: host
-      environment:
-         CONFIG_TYPE: "consul"
-         CONSUL_KEY: "hbase"
+   # hbasemaster:
+   #    container_name: hbasemaster
+   #    image: elek/hbase-master
+   #    volumes:
+   #     - "${DATA_DIR}:/data"
+   #    network_mode: host
+   #    environment:
+   #       CONFIG_TYPE: "consul"
+   #       CONSUL_KEY: "hbase"
    zookeeper:
       container_name: zookeeper
       image: elek/zookeeper
@@ -52,3 +52,13 @@ services:
       environment:
          CONFIG_TYPE: "consul"
          CONSUL_KEY: "spark"
+   stormnimbus:
+      container_name: nimbus
+      image: elek/storm-nimbus
+      network_mode: host
+      volumes:
+         - "${DATA_DIR}:/data"
+      environment:
+         CONFIG_TYPE: "consul"
+         CONSUL_KEY: "storm"
+         

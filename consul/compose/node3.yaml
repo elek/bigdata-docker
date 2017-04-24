@@ -10,3 +10,12 @@ services:
   #     environment:
   #        CONFIG_TYPE: "consul"
   #        CONSUL_KEY: "flume"
+   stormui:
+      container_name: stormui
+      image: elek/storm-ui
+      network_mode: host
+      volumes:
+         - "${DATA_DIR}:/data"
+      environment:
+         CONFIG_TYPE: "consul"
+         CONSUL_KEY: "storm"
