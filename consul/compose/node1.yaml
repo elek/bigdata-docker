@@ -61,4 +61,12 @@ services:
       environment:
          CONFIG_TYPE: "consul"
          CONSUL_KEY: "storm"
-         
+   datanode:
+      container_name: datanode
+      image: elek/hadoop-hdfs-datanode:2.8.0
+      volumes:
+         - "${DATA_DIR}:/data"
+      network_mode: host
+      environment:
+         CONFIG_TYPE: "consul"
+         CONSUL_KEY: "hdfs"
