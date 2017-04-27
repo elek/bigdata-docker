@@ -12,7 +12,7 @@ services:
   #        CONSUL_KEY: "flume"
    stormui:
       container_name: stormui
-      image: elek/storm-ui
+      image: elek/storm-ui:1.0.3
       network_mode: host
       volumes:
          - "${DATA_DIR}:/data"

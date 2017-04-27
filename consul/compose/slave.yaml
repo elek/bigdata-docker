@@ -27,7 +27,7 @@
    #      CONSUL_KEY: "hbase"
    stormsupervisor:
       container_name: supervisor
-      image: elek/storm-supervisor
+      image: elek/storm-supervisor:1.0.3
       network_mode: host
       volumes:
          - "${DATA_DIR}:/data"

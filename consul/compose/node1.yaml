@@ -54,7 +54,7 @@ services:
          CONSUL_KEY: "spark"
    stormnimbus:
       container_name: nimbus
-      image: elek/storm-nimbus
+      image: elek/storm-nimbus:1.0.3
       network_mode: host
       volumes:
          - "${DATA_DIR}:/data"
