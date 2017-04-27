@@ -1,2 +1,2 @@
-fs.default.name: hdfs://${GATEWAY_HOST}:9000
-fs.defaultFS: hdfs://${GATEWAY_HOST}:9000
+fs.default.name: hdfs://{{service "namenode" | hosts ","}}:9000
+fs.defaultFS: hdfs://{{service "namenode" | hosts ","}}:9000
