@@ -1,5 +1,0 @@
-ssl.server.keystore.location: /opt/hadoop/etc/hadoop/namenode.keystore
-ssl.server.keystore.password: Welcome1
-ssl.server.keystore.keypassword: Welcome1
-ssl.server.truststore.location: /opt/hadoop/etc/hadoop/hadoop.truststore
-ssl.server.truststore.password: Welcome1

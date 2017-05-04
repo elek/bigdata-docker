@@ -1,3 +1,0 @@
-#dfs.htrace.spanreceiver.classes: org.apache.htrace.impl.LocalFileSpanReceiver
-dfs.htrace.local-file-span-receiver.path: /data/htrace.out
-dfs.htrace.sampler: AlwaysSampler

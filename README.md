@@ -50,6 +50,6 @@ This is the most simple option. All of the application will use the network of t
 [simple]: https://github.com/elek/bigdata-docker/blob/master/simple/README.md
 [compose]: https://github.com/elek/bigdata-docker/blob/master/compose/README.md
 [ansible]: https://github.com/elek/bigdata-docker/blob/master/ansible/README.md
-[consulconfig]: https://github.com/elek/bigdata-docker/blob/master/consul/README.md
+[consulconfig]: https://github.com/elek/bigdata-docker-consul/blob/master/README.md
 [consulcompose]: https://github.com/elek/docker-consul-compose
 [consync]: https://github.com/elek/consync

@@ -1,3 +1,0 @@
-storm.zookeeper.servers:
-   - "${GATEWAY_HOST}"
-nimbus.seeds: ["${GATEWAY_HOST}"]
