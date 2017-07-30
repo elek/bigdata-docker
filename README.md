@@ -1,4 +1,6 @@
-# Docker images for Open Source bigdata/hadoop projects
+# Repository has been moved to https://github.com/flokkr/flokkr
+
+Docker images for Open Source bigdata/hadoop projects
 
 This is the umbrella project for all of my docker images related to Apache Hadoop and other bigdata related Apache and non-apache projects.
 
