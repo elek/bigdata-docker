@@ -1,4 +1,16 @@
-# Repository has been moved to https://github.com/flokkr/flokkr
+# Repository has been moved to https://flokkr.github.io
+
+
+
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
 
 Docker images for Open Source bigdata/hadoop projects
 
